@@ -758,3 +758,16 @@ func (client *SFTPClient) DownloadFileWithProgress(remotePath, localPath string)
 	fmt.Println("\nFile downloaded successfully")
 	return nil
 }
+
+func (client *SFTPClient) FileInfo(filePath string) (os.FileInfo, error) {
+	if client == nil {
+		return nil, fmt.Errorf("SFTPClient is nil")
+	}
+
+	fileInfo, err := client.sftpClient.Stat(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get file info: %w", err)
+	}
+
+	return fileInfo, nil
+}
